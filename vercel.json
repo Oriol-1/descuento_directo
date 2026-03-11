@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/ofertas-rediseno.html" },
+    { "source": "/(.*)", "destination": "/ofertas-rediseno.html" }
+  ]
+}
