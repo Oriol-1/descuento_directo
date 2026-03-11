@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Club Beneficia – Descuento Directo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --orange: #E8470A;
+    --dark: #1A1A1A;
+    --muted: #888;
+    --bg: #F2F2F2;
+    --card-bg: #FFFFFF;
+    --border: #E0DDD9;
+    --radius: 10px;
+    --shadow: 0 2px 10px rgba(0,0,0,0.08);
+    --shadow-h: 0 6px 24px rgba(0,0,0,0.14);
+    --t: 0.2s ease;
+  }
+
+  body {
+    font-family: 'Open Sans', sans-serif;
+    background: var(--bg);
+    color: var(--dark);
+    min-height: 100vh;
+  }
+
+  /* CATEGORÍAS */
+  .cats-wrap {
+    max-width: 1380px;
+    margin: 32px auto 0;
+    padding: 0 32px;
+  }
+  .cats-label {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .cats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .cat-btn {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 7px 16px;
+    border-radius: 4px;
+    border: 1.5px solid #CCCCCC;
+    background: #fff;
+    color: #444;
+    cursor: pointer;
+    transition: var(--t);
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .cat-btn:hover { border-color: var(--orange); color: var(--orange); background: #FFF6F2; }
+  .cat-btn.active { background: var(--orange); border-color: var(--orange); color: #fff; }
+
+  /* GRID */
+  .grid-wrap {
+    max-width: 1380px;
+    margin: 28px auto 60px;
+    padding: 0 32px;
+  }
+  .offers-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+  }
+
+  /* CARD */
+  .offer-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform var(--t), box-shadow var(--t);
+    opacity: 0;
+    animation: fadeUp 0.38s forwards;
+  }
+  .offer-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-h);
+  }
+  .offer-card:hover .card-img img { transform: scale(1.04); }
+
+  /* IMAGEN — cuadrada */
+  .card-img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    overflow: hidden;
+    background: #e9e9e9;
+    flex-shrink: 0;
+  }
+  .card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.35s ease;
+  }
+
+  /* CUERPO */
+  .card-body {
+    padding: 16px 18px 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .card-title {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.92rem;
+    line-height: 1.3;
+    color: #222;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card-desc {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.79rem;
+    font-weight: 400;
+    line-height: 1.6;
+    color: #555;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex: 1;
+  }
+  .card-desc strong { font-weight: 700; color: #333; }
+
+  /* BENEFICIO */
+  .card-benefit {
+    margin-top: 4px;
+    padding: 9px 12px;
+    background: #FFF3EE;
+    border-left: 3px solid var(--orange);
+    border-radius: 0 6px 6px 0;
+  }
+  .benefit-label {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 2px;
+  }
+  .benefit-value {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 800;
+    font-size: 0.92rem;
+    color: #222;
+    line-height: 1.2;
+  }
+
+  /* FOOTER / CTA */
+  .card-footer {
+    padding: 12px 18px 16px;
+  }
+  .cta-btn {
+    display: block;
+    width: 100%;
+    padding: 10px 0;
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #444;
+    background: transparent;
+    border: 1.5px solid #CCC;
+    border-radius: 5px;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: var(--t);
+    text-decoration: none;
+  }
+  .cta-btn:hover { background: var(--orange); border-color: var(--orange); color: #fff; }
+
+  /* RESPONSIVE */
+  @media (max-width: 1200px) { .offers-grid { grid-template-columns: repeat(3,1fr); } }
+  @media (max-width: 860px) {
+    .offers-grid { grid-template-columns: repeat(2,1fr); }
+    .cats-wrap, .grid-wrap { padding: 0 20px; }
+  }
+  @media (max-width: 520px) {
+    .offers-grid { grid-template-columns: 1fr; }
+    .cats-wrap, .grid-wrap { padding: 0 14px; }
+  }
+
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(14px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+  .offer-card:nth-child(1)  { animation-delay:0.03s }
+  .offer-card:nth-child(2)  { animation-delay:0.07s }
+  .offer-card:nth-child(3)  { animation-delay:0.11s }
+  .offer-card:nth-child(4)  { animation-delay:0.15s }
+  .offer-card:nth-child(5)  { animation-delay:0.19s }
+  .offer-card:nth-child(6)  { animation-delay:0.23s }
+  .offer-card:nth-child(7)  { animation-delay:0.27s }
+  .offer-card:nth-child(8)  { animation-delay:0.31s }
+  .offer-card:nth-child(9)  { animation-delay:0.35s }
+  .offer-card:nth-child(10) { animation-delay:0.39s }
+</style>
+</head>
+<body>
+
+<!-- CATEGORÍAS -->
+<div class="cats-wrap">
+  <div class="cats-label">Categorías</div>
+  <div class="cats">
+    <button class="cat-btn active">Todo</button>
+    <button class="cat-btn">Ocio</button>
+    <button class="cat-btn">Automoción</button>
+    <button class="cat-btn">Tech</button>
+    <button class="cat-btn">Extra (Mod.)</button>
+    <button class="cat-btn">Tarjetas</button>
+    <button class="cat-btn">Más promociones</button>
+  </div>
+</div>
+
+<!-- GRID -->
+<div class="grid-wrap">
+  <div class="offers-grid">
+
+    <!-- 1. Samsung Galaxy -->
+    <div class="offer-card">
+      <div class="card-img">
+        <img
+          src="https://club.clubbeneficia.es/showthumbnail.ashx?NOCACHE=false&Tipo=FicherosClubs&IDGuid=B941D77C-E4D4-41B4-88EA-12B9F83FE764&FechaM=26_02_2026_12_56_06&Fullimage=true&Crop=false&AspectRatio=true&Color=rgba(255,255,255,1)&W=600&H=340"
+          alt="Samsung Galaxy"
+          loading="lazy"
+          onerror="this.style.display='none'">
+      </div>
+      <div class="card-body">
+        <h2 class="card-title">Este invierno, estrena lo último de Samsung Galaxy</h2>
+        <p class="card-desc">
+          <strong>Hasta 25%</strong> en Galaxy S26 Series: ahorra <strong>hasta 775€</strong> entregando tu antiguo dispositivo. <strong>50€ extra</strong> pagando con Samsung Pay. <strong>Hasta 29%</strong> en el resto de smartphones y Galaxy Tab S11. <strong>Hasta 62%</strong> en TVs NEO QLED y barras de sonido. <strong>Hasta 40%</strong> en electrodomésticos. <strong>Hasta 35%</strong> en portátiles y monitores.
+        </p>
+        <div class="card-benefit">
+          <div class="benefit-label">Tu beneficio</div>
+          <div class="benefit-value">Solo en el Club</div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <a class="cta-btn" href="https://club.clubbeneficia.es/Descuento_Directo" target="_blank">Más información</a>
+      </div>
+    </div>
+
+    <!-- 2. Supercademy -->
+    <div class="offer-card">
+      <div class="card-img">
+        <img
+          src="https://club.clubbeneficia.es/showthumbnail.ashx?NOCACHE=false&Tipo=FicherosClubs&IDGuid=863227D8-A014-4BF2-B59D-69BEAD1F3C39&FechaM=12_09_2024_12_21_58&Fullimage=true&Crop=false&AspectRatio=true&Color=rgba(255,255,255,1)&W=600&H=340"
+          alt="Supercademy"
+          loading="lazy"
+          onerror="this.style.display='none'">
+      </div>
+      <div class="card-body">
+        <h2 class="card-title">Supercademy — La primera academia de profesores creados con IA</h2>
+        <p class="card-desc">Permite hacer los deberes, preparar un examen, mantener clases de conversación en inglés, francés o alemán las 24 h. Contenidos oficiales desde primaria hasta EBAU. <strong>15% de descuento al seleccionar 3 alumnos o más</strong> con el código "Affinity15".</p>
+        <div class="card-benefit">
+          <div class="benefit-label">Tu beneficio</div>
+          <div class="benefit-value">20 días de prueba gratuita</div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <a class="cta-btn" href="https://club.clubbeneficia.es/Descuento_Directo" target="_blank">Más información</a>
+      </div>
+    </div>
+
+    <!-- 3. Abonoteatro -->
+    <div class="offer-card">
+      <div class="card-img">
+        <img
+          src="https://club.clubbeneficia.es/showthumbnail.ashx?NOCACHE=false&Tipo=FicherosClubs&IDGuid=3AD79446-F5E7-4FA8-B068-FC5112B2B866&FechaM=09_03_2026_08_38_08&Fullimage=true&Crop=false&AspectRatio=true&Color=rgba(255,255,255,1)&W=600&H=340"
+          alt="Abonoteatro"
+          loading="lazy"
+          onerror="this.style.display='none'">
+      </div>
+      <div class="card-body">
+        <h2 class="card-title">Abonoteatro — Tu tarifa plana de teatro, cine y eventos</h2>
+        <p class="card-desc">Abono anual con el que podrás disfrutar de una variada oferta de espectáculos teatrales. Además, tendrás acceso a diversas salas de cine, eventos, exposiciones y mucho más.</p>
+        <div class="card-benefit">
+          <div class="benefit-label">Tu beneficio</div>
+          <div class="benefit-value">50% de dto.</div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <a class="cta-btn" href="https://club.clubbeneficia.es/Descuento_Directo" target="_blank">Más información</a>
+      </div>
+    </div>
+
+    <!-- 4. Krack The Walk -->
+    <div class="offer-card">
+      <div class="card-img">
+        <img
+          src="https://club.clubbeneficia.es/showthumbnail.ashx?NOCACHE=false&Tipo=FicherosClubs&IDGuid=9F2AA70A-2E29-453B-8CAD-ED9EA84B90C2&FechaM=21_11_2024_02_16_39&Fullimage=true&Crop=false&AspectRatio=true&Color=rgba(255,255,255,1)&W=600&H=340"
+          alt="Krack The Walk"
+          loading="lazy"
+          onerror="this.style.display='none'">
+      </div>
+      <div class="card-body">
+        <h2 class="card-title">Krack The Walk — Tu tienda de zapatos y accesorios</h2>
+        <p class="card-desc">Krack te trae las mejores marcas de calzado del mercado: Birkenstock, Nike, Dr. Martens, New Balance, ¡y muchas más! Disfruta ahora de un 15% de descuento extra en tus compras online o en tienda física.</p>
+        <div class="card-benefit">
+          <div class="benefit-label">Tu beneficio</div>
+          <div class="benefit-value">15% de dto. extra</div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <a class="cta-btn" href="https://club.clubbeneficia.es/Descuento_Directo" target="_blank">Más información</a>
+      </div>
+    </div>
+
+    <!-- 5. TREK Bicycle Madrid -->
+    <div class="offer-card">
+      <div class="card-img">
+        <img
+          src="https://club.clubbeneficia.es/showthumbnail.ashx?NOCACHE=false&Tipo=FicherosClubs&IDGuid=87A2367A-F49A-47A8-8019-0E9AC2CB5F57&FechaM=30_04_2025_12_50_57&Fullimage=true&Crop=false&AspectRatio=true&Color=rgba(255,255,255,1)&W=600&H=340"
+          alt="TREK Bicycle Madrid"
+          loading="lazy"
+          onerror="this.style.display='none'">
+      </div>
+      <div class="card-body">
+        <h2 class="card-title">TREK Bicycle Madrid — Descuentos pensados para ti</h2>
+        <p class="card-desc">Tanto si buscas una bicicleta de paseo como una de competición, en TREK Bicycle Madrid te esperan beneficios exclusivos por ser parte del Club. Descuentos en bicicletas, accesorios, taller, alquiler especial y experiencias ciclistas. ¡Más que beneficios, una forma de vivir!</p>
+        <div class="card-benefit">
+          <div class="benefit-label">Tu beneficio</div>
+          <div class="benefit-value">Hasta un 25% de dto.</div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <a class="cta-btn" href="https://club.clubbeneficia.es/Descuento_Directo" target="_blank">Más información</a>
+      </div>
+    </div>
+
+    <!-- 6. Club BY -->
+    <div class="offer-card">
+      <div class="card-img">
+        <img
+          src="https://club.clubbeneficia.es/showthumbnail.ashx?NOCACHE=false&Tipo=FicherosClubs&IDGuid=38C043D2-B6A8-4E98-A852-DC3DE3868CE1&FechaM=08_05_2025_10_09_45&Fullimage=true&Crop=false&AspectRatio=true&Color=rgba(255,255,255,1)&W=600&H=340"
+          alt="Club BY"
+          loading="lazy"
+          onerror="this.style.display='none'">
+      </div>
+      <div class="card-body">
+        <h2 class="card-title">Club BY — Tus restaurantes favoritos en un solo portal</h2>
+        <p class="card-desc">Disfruta de la mejor restauración con ofertas únicas gracias a Club BY, ahora con hasta un 35% en GINOS, VIPS, Fridays y Foster's Hollywood. ¡Solo por ser miembro del Club!</p>
+        <div class="card-benefit">
+          <div class="benefit-label">Tu beneficio</div>
+          <div class="benefit-value">Hasta 35% dto.</div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <a class="cta-btn" href="https://club.clubbeneficia.es/Descuento_Directo" target="_blank">Más información</a>
+      </div>
+    </div>
+
+    <!-- 7. Ruralka -->
+    <div class="offer-card">
+      <div class="card-img">
+        <img
+          src="https://club.clubbeneficia.es/showthumbnail.ashx?NOCACHE=false&Tipo=FicherosClubs&IDGuid=71E0E9B8-C46A-4EEE-AC68-94ACA49109B8&FechaM=29_05_2024_04_59_16&Fullimage=true&Crop=false&AspectRatio=true&Color=rgba(255,255,255,1)&W=600&H=340"
+          alt="Ruralka"
+          loading="lazy"
+          onerror="this.style.display='none'">
+      </div>
+      <div class="card-body">
+        <h2 class="card-title">Ruralka — Portal de escapadas de hotel rural</h2>
+        <p class="card-desc">Descubre la belleza de lo auténtico y explora el encanto de lo rural con Ruralka. ¡Aprovéchate de los 10€ de descuento con el código "10ESCAPADA"!</p>
+        <div class="card-benefit">
+          <div class="benefit-label">Tu beneficio</div>
+          <div class="benefit-value">10€ de dto.</div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <a class="cta-btn" href="https://club.clubbeneficia.es/Descuento_Directo" target="_blank">Más información</a>
+      </div>
+    </div>
+
+    <!-- 8. MyInvestor -->
+    <div class="offer-card">
+      <div class="card-img">
+        <img
+          src="https://club.clubbeneficia.es/showthumbnail.ashx?NOCACHE=false&Tipo=FicherosClubs&IDGuid=8D5F9B92-D981-4EFB-BB07-B44B57CD6294&FechaM=04_06_2024_01_58_12&Fullimage=true&Crop=false&AspectRatio=true&Color=rgba(255,255,255,1)&W=600&H=340"
+          alt="MyInvestor"
+          loading="lazy"
+          onerror="this.style.display='none'">
+      </div>
+      <div class="card-body">
+        <h2 class="card-title">MyInvestor — El nuevo concepto de banco para hacer crecer tus ahorros</h2>
+        <p class="card-desc">Disfruta de una cuenta sin comisiones al 1,25% TAE* y accede a depósitos con condiciones exclusivas por ser miembro del club.</p>
+        <div class="card-benefit">
+          <div class="benefit-label">Tu beneficio</div>
+          <div class="benefit-value">Condiciones preferentes</div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <a class="cta-btn" href="https://club.clubbeneficia.es/Descuento_Directo" target="_blank">Más información</a>
+      </div>
+    </div>
+
+    <!-- 9. Wings to Claim -->
+    <div class="offer-card">
+      <div class="card-img">
+        <img
+          src="https://club.clubbeneficia.es/showthumbnail.ashx?NOCACHE=false&Tipo=FicherosClubs&IDGuid=A147AE72-9922-4297-A0E7-3C87ED5F527F&FechaM=01_08_2022_11_52_08&Fullimage=true&Crop=false&AspectRatio=true&Color=rgba(255,255,255,1)&W=600&H=340"
+          alt="Wings to Claim"
+          loading="lazy"
+          onerror="this.style.display='none'">
+      </div>
+      <div class="card-body">
+        <h2 class="card-title">Wings to Claim — Reclamaciones de vuelos</h2>
+        <p class="card-desc">Tener problemas con un vuelo no es una experiencia agradable. En Wings to Claim defenderán tus derechos frente a las compañías aéreas.</p>
+        <div class="card-benefit">
+          <div class="benefit-label">Tu beneficio</div>
+          <div class="benefit-value">Si no ganamos, no cobramos.</div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <a class="cta-btn" href="https://club.clubbeneficia.es/Descuento_Directo" target="_blank">Más información</a>
+      </div>
+    </div>
+
+    <!-- 10. Affinity Energía -->
+    <div class="offer-card">
+      <div class="card-img">
+        <img
+          src="https://club.clubbeneficia.es/showthumbnail.ashx?NOCACHE=false&Tipo=FicherosClubs&IDGuid=2D32F3ED-A1F3-4F52-9635-2986E9B81242&FechaM=26_10_2023_11_22_37&Fullimage=true&Crop=false&AspectRatio=true&Color=rgba(255,255,255,1)&W=600&H=340"
+          alt="Affinity Energía"
+          loading="lazy"
+          onerror="this.style.display='none'">
+      </div>
+      <div class="card-body">
+        <h2 class="card-title">Affinity Energía — Ahorra en tu factura de electricidad y gas</h2>
+        <p class="card-desc">¡Ahorra en tu factura de luz y gas con Affinity Energía!</p>
+        <div class="card-benefit">
+          <div class="benefit-label">Tu beneficio</div>
+          <div class="benefit-value">Más de un 10% de ahorro</div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <a class="cta-btn" href="https://club.clubbeneficia.es/Descuento_Directo" target="_blank">Más información</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.cat-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
