@@ -32,9 +32,8 @@
 
   /* CATEGORÍAS */
   .cats-wrap {
-    max-width: 1380px;
     margin: 32px auto 0;
-    padding: 0 32px;
+    padding: 0 15px;
   }
   .cats-label {
     font-size: 0.68rem;
@@ -69,14 +68,13 @@
 
   /* GRID */
   .grid-wrap {
-    max-width: 1380px;
     margin: 28px auto 60px;
     padding: 0 32px;
   }
   .offers-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
   }
 
   /* CARD */
@@ -114,22 +112,22 @@
     object-fit: contain;
     display: block;
     transition: transform 0.35s ease;
-    padding: 8px;
+    padding: 6px;
   }
 
   /* CUERPO */
   .card-body {
-    padding: 16px 18px 0;
+    padding: 12px 14px 0;
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
   }
 
   .card-title {
     font-family: 'Open Sans', sans-serif;
     font-weight: 700;
-    font-size: 0.92rem;
+    font-size: 0.82rem;
     line-height: 1.3;
     color: #222;
     display: -webkit-box;
@@ -141,18 +139,23 @@
 
   .card-desc {
     font-family: 'Open Sans', sans-serif;
-    font-size: 0.76rem;
+    font-size: 0.72rem;
     font-weight: 400;
-    line-height: 1.55;
+    line-height: 1.5;
     color: #555;
     flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
   .card-desc strong { font-weight: 700; color: #333; }
 
   /* BENEFICIO */
   .card-benefit {
     margin-top: 4px;
-    padding: 9px 12px;
+    padding: 7px 10px;
     background: #FFF3EE;
     border-left: 3px solid var(--orange);
     border-radius: 0 6px 6px 0;
@@ -160,22 +163,22 @@
   .benefit-value {
     font-family: 'Open Sans', sans-serif;
     font-weight: 800;
-    font-size: 0.92rem;
+    font-size: 0.82rem;
     color: #222;
     line-height: 1.2;
   }
 
   /* FOOTER / CTA */
   .card-footer {
-    padding: 12px 18px 16px;
+    padding: 10px 14px 14px;
   }
   .cta-btn {
     display: block;
     width: 100%;
-    padding: 10px 0;
+    padding: 9px 0;
     text-align: center;
     font-family: 'Open Sans', sans-serif;
-    font-size: 0.78rem;
+    font-size: 0.73rem;
     font-weight: 700;
     color: #444;
     background: transparent;
@@ -190,14 +193,15 @@
   .cta-btn:hover { background: #333; border-color: #333; color: #fff; }
 
   /* RESPONSIVE */
-  @media (max-width: 1200px) { .offers-grid { grid-template-columns: repeat(3,1fr); } }
+  @media (max-width: 1400px) { .offers-grid { grid-template-columns: repeat(4,1fr); } }
+  @media (max-width: 1100px) { .offers-grid { grid-template-columns: repeat(3,1fr); } }
   @media (max-width: 860px) {
     .offers-grid { grid-template-columns: repeat(2,1fr); }
-    .cats-wrap, .grid-wrap { padding: 0 20px; }
+    .cats-wrap, .grid-wrap { padding: 0 15px; }
   }
   @media (max-width: 520px) {
     .offers-grid { grid-template-columns: 1fr; }
-    .cats-wrap, .grid-wrap { padding: 0 14px; }
+    .cats-wrap, .grid-wrap { padding: 0 10px; }
   }
 
   @keyframes fadeUp {
